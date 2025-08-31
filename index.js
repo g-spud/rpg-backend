@@ -15,26 +15,21 @@ const client = new MongoClient(uri);
 async function start() {
   try {
     await client.connect();
-    console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
 
-    // Example route
-    app.get('/', (req, res) => {
-      res.send('RPG Backend is live!');
-    });
+    const db = client.db('testdb'); // Use your DB name
+    const collection = db.collection('testcollection'); // Use any collection name
 
-    // Test API route
-    app.get('/api/test', (req, res) => {
-      res.json({ message: 'Backend is working!' });
-    });
+    // Insert a test document
+    const result = await collection.insertOne({ message: 'Hello, MongoDB!', createdAt: new Date() });
+    console.log('Inserted document:', result.insertedId);
 
-    // Use the Render-assigned port
-    const PORT = process.env.PORT || 3000;
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    // Close the connection after insert
+    await client.close();
+    console.log('Connection closed');
 
   } catch (err) {
-    console.error("Failed to connect to MongoDB:", err);
+    console.error('Error connecting or inserting:', err);
   }
 }
 
