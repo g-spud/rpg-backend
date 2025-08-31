@@ -17,21 +17,20 @@ async function start() {
     await client.connect();
     console.log('Connected to MongoDB');
 
-    const db = client.db('testdb'); // Use your DB name
-    const collection = db.collection('testcollection'); // Use any collection name
+    const db = client.db('testdb');
+    const collection = db.collection('testcollection');
 
-    // Insert a test document
-    const result = await collection.insertOne({ message: 'Hello, MongoDB!', createdAt: new Date() });
-    console.log('Inserted document:', result.insertedId);
+    const doc = { message: 'Hello, MongoDB!', createdAt: new Date() };
+    console.log('Inserting document:', doc);
 
-    // Close the connection after insert
+    const result = await collection.insertOne(doc);
+    console.log('Inserted document ID:', result.insertedId);
+
     await client.close();
     console.log('Connection closed');
-
   } catch (err) {
     console.error('Error connecting or inserting:', err);
   }
 }
-
 
 start();
