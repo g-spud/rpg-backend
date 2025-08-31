@@ -22,6 +22,11 @@ async function start() {
       res.send('RPG Backend is live!');
     });
 
+    // Test API route
+    app.get('/api/test', (req, res) => {
+      res.json({ message: 'Backend is working!' });
+    });
+
     // Use the Render-assigned port
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
@@ -32,5 +37,6 @@ async function start() {
     console.error("Failed to connect to MongoDB:", err);
   }
 }
+
 
 start();
